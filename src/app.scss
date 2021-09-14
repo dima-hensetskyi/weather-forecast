@@ -6,7 +6,26 @@
 .weather-icon {
   width: 50px;
 }
-
+.message {
+  position: absolute;
+  bottom: 10%;
+  right: 5%;
+}
+.hottest {
+  position: relative;
+  /*  &::after {
+    content: "*";
+    color: red;
+    position: absolute;
+    top: 1%;
+    right: 3%;
+  } */
+}
+.fa-temperature-high {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+}
 @media screen and (max-width: 768px) {
   .width-100 {
     width: 100% !important;

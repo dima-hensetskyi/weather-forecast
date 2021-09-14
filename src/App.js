@@ -7,12 +7,14 @@ import { SearchForm } from "./components/SearchForm/SearchForm";
 import { Preloader } from "./components/common/preloader/Preloader";
 import { WeekForecastCard } from "./components/WeatherContent/WeekForecastCard";
 import { CurrentWeatherCard } from "./components/WeatherContent/CurrentWeatherCard";
+import { Alert } from "./components/common/alert/Alert";
 
 import "./app.scss";
 
 const App = () => {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [weekForecast, setWeekForecast] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   const { loading, request, error, clearError } = useHttp();
 
@@ -20,12 +22,13 @@ const App = () => {
     try {
       const currentWeatherData = await request(`weather?q=${cityName}`, "GET");
       setCurrentWeather(currentWeatherData.data);
+      return currentWeatherData;
     } catch (e) {}
   };
 
   useEffect(() => {
     if (error) {
-      console.log(error);
+      setShowAlert(error.response.data.message);
     }
     clearError();
   }, [error, clearError]);
@@ -33,24 +36,28 @@ const App = () => {
   const fetchWeekForecast = async (cityName) => {
     try {
       const weekForecastData = await request(`forecast?q=${cityName}`, "GET");
-
       const correctList = [];
       weekForecastData.data.list.reduce((obj, forecast) => {
         const date = new Date(forecast.dt * 1000).getDate();
         if (!obj[date]) {
-          obj[date] = date; /*  виправити */
+          obj[date] = date;
           correctList.push(forecast);
         }
         return obj;
       }, {});
       await setWeekForecast(correctList);
-    } catch (e) {}
+    } catch (err) {
+      console.log(err.response.data.message);
+    }
   };
 
   const fetchWeather = async (cityName) => {
-    await fetchCurrentWeather(cityName);
+    const resp = await fetchCurrentWeather(cityName);
     await fetchWeekForecast(cityName);
+    return resp;
   };
+
+  const closeAlert = () => setShowAlert(false);
 
   return (
     <Container fluid className="bg-light full-height">
@@ -75,6 +82,7 @@ const App = () => {
           )}
         </Row>
       </Container>
+      <Alert message={showAlert} closeAlert={closeAlert} />
     </Container>
   );
 };

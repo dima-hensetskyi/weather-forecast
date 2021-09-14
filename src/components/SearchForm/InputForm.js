@@ -6,8 +6,10 @@ export const InputForm = ({ fetchWeather, isLoading, saveCity }) => {
 
   const onButtonClick = async () => {
     if (!isLoading) {
-      await fetchWeather(cityName);
-      saveCity(cityName);
+      const resp = await fetchWeather(cityName);
+      if (resp) {
+        saveCity(cityName);
+      }
     }
   };
 
@@ -22,7 +24,7 @@ export const InputForm = ({ fetchWeather, isLoading, saveCity }) => {
         onChange={(e) => setSityName(e.target.value)}
         onKeyPress={(e) => {
           if (e.key === "Enter" && !isLoading) {
-            fetchWeather(cityName);
+            onButtonClick(cityName);
           }
         }}
         placeholder="Search city"
