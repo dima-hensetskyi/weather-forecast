@@ -14,7 +14,7 @@ import "./app.scss";
 const App = () => {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [weekForecast, setWeekForecast] = useState(null);
-  const [showAlert, setShowAlert] = useState(false);
+  const [alertData, setAlertData] = useState({ show: false, message: null });
 
   const { loading, request, error, clearError } = useHttp();
 
@@ -23,12 +23,15 @@ const App = () => {
       const currentWeatherData = await request(`weather?q=${cityName}`, "GET");
       setCurrentWeather(currentWeatherData.data);
       return currentWeatherData;
-    } catch (e) {}
+    } catch (err) {}
   };
 
   useEffect(() => {
     if (error) {
-      setShowAlert(error.response.data.message);
+      setAlertData({ show: true, message: error.response.data.message });
+      setTimeout(() => {
+        setAlertData({ show: false, message: error.response.data.message });
+      }, 3000);
     }
     clearError();
   }, [error, clearError]);
@@ -46,9 +49,7 @@ const App = () => {
         return obj;
       }, {});
       await setWeekForecast(correctList);
-    } catch (err) {
-      console.log(err.response.data.message);
-    }
+    } catch (err) {}
   };
 
   const fetchWeather = async (cityName) => {
@@ -57,7 +58,7 @@ const App = () => {
     return resp;
   };
 
-  const closeAlert = () => setShowAlert(false);
+  const closeAlert = () => setAlertData({ show: false, message: null });
 
   return (
     <Container fluid className="bg-light full-height">
@@ -82,7 +83,7 @@ const App = () => {
           )}
         </Row>
       </Container>
-      <Alert message={showAlert} closeAlert={closeAlert} />
+      <Alert alertData={alertData} closeAlert={closeAlert} />
     </Container>
   );
 };

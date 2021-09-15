@@ -1,26 +1,20 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { Toast } from "react-bootstrap";
 import { getCorrectDescription } from "../../utils/getCorrectDescription";
 
-export const Alert = ({ message }) => {
-  const [showAlertm, setShowAlert] = useState(false);
-  useEffect(() => {
-    if (message) {
-      setShowAlert(true);
-    }
-  }, [message]);
-
+export const Alert = React.memo(({ alertData, closeAlert }) => {
+  const { show, message } = alertData;
   return (
     <Toast
-      show={showAlertm}
+      show={show}
       position="top-end"
       className="message"
       bg={"danger"}
-      onClose={() => setShowAlert(false)}
+      onClose={closeAlert}
     >
       <Toast.Header className="d-flex justify-content-between">
         {message && <h5 className="m-0">{getCorrectDescription(message)}</h5>}
       </Toast.Header>
     </Toast>
   );
-};
+});

@@ -1,19 +1,19 @@
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 .full-height {
-	min-height: 100vh;
+  min-height: 100vh;
 }
 .weather-icon {
-	width: 50px;
+  width: 50px;
 }
 .message {
-	position: absolute;
-	bottom: 10%;
-	right: 5%;
+  position: absolute;
+  bottom: 10%;
+  right: 5%;
 }
 .hottest {
-	position: relative;
-	/*  &::after {
+  position: relative;
+  /*  &::after {
     content: "*";
     color: red;
     position: absolute;
@@ -22,15 +22,16 @@
   } */
 }
 .fa-temperature-high {
-	position: absolute;
-	top: 1%;
-	right: 1%;
+  position: absolute;
+  top: 1%;
+  right: 1%;
 }
 .badge {
-	font-size: 1.2em;
+  font-size: 1.2em;
+  min-width: 150px;
 }
 @media screen and (max-width: 768px) {
-	.width-100 {
-		width: 100% !important;
-	}
+  .width-100 {
+    width: 100% !important;
+  }
 }
