@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 import { InputForm } from "./InputForm";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -12,7 +12,7 @@ const defaultCities = [
   "New York",
 ];
 
-export const SearchForm = ({ fetchWeather, isLoading }) => {
+export const SearchForm = React.memo(({ fetchWeather, isLoading }) => {
   const [popularCities, setPopularCities] = useState([]);
   const [markedСities, setMarkedСities] = useState([]);
   const [hottestCity, setHottestCity] = useState("");
@@ -28,7 +28,9 @@ export const SearchForm = ({ fetchWeather, isLoading }) => {
   }, [popularCities]);
 
   useEffect(() => {
-    const arr = markedСities.filter((city) => popularCities.indexOf(city));
+    const arr = markedСities.filter((city) =>
+      popularCities.includes(city.name)
+    );
     arr.sort((a, b) => b.main.temp - a.main.temp);
     setHottestCity(arr[0]);
   }, [markedСities, popularCities]);
@@ -123,4 +125,4 @@ export const SearchForm = ({ fetchWeather, isLoading }) => {
       </DragDropContext>
     </>
   );
-};
+});

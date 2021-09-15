@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 
 import { useHttp } from "./components/hooks/useHttp";
@@ -58,7 +58,10 @@ const App = () => {
     return resp;
   };
 
-  const closeAlert = () => setAlertData({ show: false, message: null });
+  const closeAlert = useCallback(
+    () => setAlertData({ show: false, message: null }),
+    []
+  );
 
   return (
     <Container fluid className="bg-light full-height">

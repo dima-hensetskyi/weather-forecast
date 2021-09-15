@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FormControl, InputGroup, Button } from "react-bootstrap";
 
 export const InputForm = ({ fetchWeather, isLoading, saveCity }) => {
-  const [cityName, setSityName] = useState("");
+  const [cityName, setCityName] = useState("");
 
   const onButtonClick = async () => {
     if (!isLoading) {
@@ -21,7 +21,7 @@ export const InputForm = ({ fetchWeather, isLoading, saveCity }) => {
       <FormControl
         required
         value={cityName}
-        onChange={(e) => setSityName(e.target.value)}
+        onChange={(e) => setCityName(e.target.value)}
         onKeyPress={(e) => {
           if (e.key === "Enter" && !isLoading) {
             onButtonClick(cityName);
